@@ -12,18 +12,24 @@ class DB {
      * @param {*string} params 
      * @returns data from executed query
      */
-    async #query(q, params){
+    async search(q, params){
         try {
             const statement = database.prepare(q)
-            let data = statement.all();
+            let data = statement.all(params);
             return data;
         } catch (error) {
             console.error(error)
         }
     }
 
-    async apply(query, params){
-        return this.#query(query, params)
+    async insert(q, params){
+        try {
+            const statement = database.prepare(q)
+            const data = statement.run(...params);
+            return data;
+        } catch (error) {
+            console.error(error)
+        }
     }
 
 }
