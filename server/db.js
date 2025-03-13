@@ -32,6 +32,16 @@ class DB {
         }
     }
 
+    async delete(q, params){
+        try {
+            const statement = database.prepare(q)
+            const data = statement.run(...params);
+            return data;
+        } catch (error) {
+            console.error(error)
+        }
+    }
+
 }
 
 const db = new DB() //singleton
