@@ -12,7 +12,7 @@ const DeleteItem = ({handleRemovedItem, itemID}) => {
     }
 
     return (
-        <button className='duration-200 hover:text-white' onClick={handleRemoveItem}>Delete</button>
+        <button className='duration-200 hover:text-red-500' onClick={handleRemoveItem}>Delete</button>
     )
 }
 

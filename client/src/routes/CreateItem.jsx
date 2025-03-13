@@ -31,13 +31,13 @@ const CreateItem = ({handleCreatedItem}) => {
 
     return (
         <>
-            <div className="flex flex-col mx-5 w-min">
-                <input placeholder='name' className='placeholder:opacity-50 focus:outline-none' onChange={e => setNewName(e.target.value)} id="name"></input>
-                <input placeholder='cost' className='placeholder:opacity-50 focus:outline-none' onChange={e => setNewCost(e.target.value)} id="cost" type="number" min={1}></input>
-                <input placeholder='description' className='placeholder:opacity-50 focus:outline-none' onChange={e => setNewDescription(e.target.value)} id="description"></input>
-                <input placeholder='vendor' className='placeholder:opacity-50 focus:outline-none' onChange={e => setNewVendor(e.target.value)} id="vendor"></input>
-                <input placeholder='count' className='placeholder:opacity-50 focus:outline-none' onChange={e => setNewCount(e.target.value)} id="count" type="number" min={1}></input>
-                <button className='bg-red-50 text-blue font-bold rounded-md px-8 py-2 mb-5' type='submit' onClick={() => {handleCreateItem()}}>Create</button> {/* on click goes to handling function */}
+            <div className="space-y-3">
+                <input type="text" placeholder="Enter product name" className="w-full p-2 border rounded" onChange={e => setNewName(e.target.value)} id="name"/>
+                <input type="number" placeholder="Enter product cost" className="w-full p-2 border rounded" onChange={e => setNewCost(e.target.value)} id="cost" min={1}/>
+                <input type="text" placeholder="Enter product description" className="w-full p-2 border rounded" onChange={e => setNewDescription(e.target.value)} id="description"/>
+                <input type="text" placeholder="Enter product vendor" className="w-full p-2 border rounded" onChange={e => setNewVendor(e.target.value)} id="vendor"/>
+                <input type="number" placeholder="Enter product count" className="w-full p-2 border rounded" onChange={e => setNewCount(e.target.value)} id="count" min={1}/>
+                <button className="w-full bg-green-500 text-white p-2 rounded" onClick={() => {handleCreateItem()}}>Create</button>
             </div>
         </>
     )
