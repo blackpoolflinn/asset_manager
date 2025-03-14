@@ -15,7 +15,7 @@ const DisplayItems = () => {
     let count = document.getElementById("count")
 
     const handleCreatedItem = (response, newName, newCost, newDescription, newVendor, newCount) => {
-        name.value = '' //Resest fields so another item can be added
+        name.value = '' //Resets fields so another item can be added
         cost.value = ''
         description.value = '' 
         vendor.value = ''
@@ -24,10 +24,11 @@ const DisplayItems = () => {
     }
 
     return (
-        <div className="p-6 bg-gray-100 min-h-screen">
+      <div className="p-6 bg-gray-100 min-h-screen">
+        <div className="container">
           {/* Header */}
-          <div className="bg-green-200 p-3 rounded-md flex justify-between items-center">
-            <span className="font-semibold">Inventory dashboard</span>
+          <div className="bg-green-500/50 p-3 rounded-md flex justify-between items-center">
+            <span className="font-semibold text-white">Inventory dashboard</span>
           </div>
           
           {/* Main Content */}
@@ -83,19 +84,20 @@ const DisplayItems = () => {
               <h2 className="text-lg font-semibold mb-2 text-center bg-green-500 text-white p-2 rounded">Manage Inventory</h2>
               {!addOpen ? <>
                 <div className="flex mb-2 w-full gap-2">
-                    <button className="bg-green-500 px-3 py-1 rounded w-full text-white">Add</button>
-                    <button className="px-3 py-1 rounded w-full outline-green-500 outline outline-1" onClick={() => setAddOpen(!addOpen)}>Edit</button>
+                    <button className="bg-green-500/50 px-3 py-1 rounded w-full text-white font-semibold">Add</button>
+                    <button className="px-3 py-1 rounded w-full outline-green-500 outline outline-1 font-semibold text-green-500" onClick={() => setAddOpen(!addOpen)}>Edit</button>
                 </div>
                 <CreateItem handleCreatedItem={handleCreatedItem}/>
                 </> : <>
                 <div className="flex mb-2 w-full gap-2">
-                    <button className="px-3 py-1 rounded w-full outline-green-500 outline outline-1" onClick={() => setAddOpen(!addOpen)}>Add</button>
-                    <button className="bg-green-500 px-3 py-1 rounded w-full text-white">Edit</button>
+                    <button className="px-3 py-1 rounded w-full outline-green-500 outline outline-1 font-semibold text-green-500" onClick={() => setAddOpen(!addOpen)}>Add</button>
+                    <button className="bg-green-500/50 px-3 py-1 rounded w-full text-white font-semibold">Edit</button>
                 </div>
                 <EditItem/>
                 </>}
             </div>
           </div>
+        </div>
         </div>
       );
 

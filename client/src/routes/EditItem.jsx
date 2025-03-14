@@ -13,6 +13,7 @@ const EditItem = () => {
 
     return (
         <>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=edit_square" />
         <div className="relative inline-block text-left w-full py-2">
             { Object.keys(selectedItem).length === 0 ?
             <button onClick={() => setIsOpen(!isOpen)} className="hover:bg-slate-400/15 hover:text-white px-4 rounded-md focus:outline-none mb-2 w-full text-black bg-white outline-slate-400/15 outline">
@@ -55,36 +56,36 @@ const EditItem = () => {
                 <tr className="odd:bg-gray-50 even:bg-white text-center">
                     <td className="p-2 border">Name</td>
                     <td className="p-2 border overflow-auto">{selectedItem.product_name}</td>
-                    <td className="p-2 border w-1/4">
-                        <button className="w-full h-full hover:text-green-500/15">Edit</button>
+                    <td className="border w-1/4 hover:bg-green-500/15">
+                        <button className="w-full h-full"><span class="material-symbols-outlined">edit_square</span></button>
                     </td>
                 </tr>
                 <tr className="odd:bg-gray-50 even:bg-white text-center">
-                    <td className="p-2 border">Name</td>
+                    <td className="p-2 border">Cost</td>
                     <td className="p-2 border overflow-auto">{selectedItem.product_cost}</td>
-                    <td className="p-2 border w-1/4">
-                        <button className="w-full h-full hover:text-green-500/15">Edit</button>
+                    <td className="border w-1/4 hover:bg-green-500/15">
+                        <button className="w-full h-full"><span class="material-symbols-outlined">edit_square</span></button>
                     </td>
                 </tr>
                 <tr className="odd:bg-gray-50 even:bg-white text-center">
-                    <td className="p-2 border">description</td>
+                    <td className="p-2 border">Description</td>
                     <td className="p-2 border overflow-auto">{selectedItem.product_description}</td>
-                    <td className="p-2 border w-1/4">
-                        <button className="w-full h-full hover:text-green-500/15">Edit</button>
+                    <td className="border w-1/4 hover:bg-green-500/15">
+                        <button className="w-full h-full"><span class="material-symbols-outlined">edit_square</span></button>
                     </td>
                 </tr>
                 <tr className="odd:bg-gray-50 even:bg-white text-center">
-                    <td className="p-2 border w-1/4">vendor</td>
+                    <td className="p-2 border w-1/4">Vendor</td>
                     <td className="p-2 border overflow-auto">{selectedItem.product_vendor}</td>
-                    <td className="p-2 border w-1/4">
-                        <button className="w-full h-full hover:text-green-500/15">Edit</button>
+                    <td className="border w-1/4 hover:bg-green-500/15">
+                        <button className="w-full h-full"><span class="material-symbols-outlined">edit_square</span></button>
                     </td>
                 </tr>
                 <tr className="odd:bg-gray-50 even:bg-white text-center">
-                    <td className="p-2 border">count</td>
+                    <td className="p-2 border">Count</td>
                     <td className="p-2 border overflow-auto">{selectedItem.product_count}</td>
-                    <td className="p-2 border w-1/4">
-                        <button className="w-full h-full hover:text-green-500/15">Edit</button>
+                    <td className="border w-1/4 hover:bg-green-500/15">
+                        <button className="w-full h-full"><span class="material-symbols-outlined">edit_square</span></button>
                     </td>
                 </tr>
             </tbody>

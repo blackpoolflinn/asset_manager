@@ -37,7 +37,7 @@ const CreateItem = ({handleCreatedItem}) => {
                 <input type="text" placeholder="Enter product description" className="w-full p-2 border rounded" onChange={e => setNewDescription(e.target.value)} id="description"/>
                 <input type="text" placeholder="Enter product vendor" className="w-full p-2 border rounded" onChange={e => setNewVendor(e.target.value)} id="vendor"/>
                 <input type="number" placeholder="Enter product count" className="w-full p-2 border rounded" onChange={e => setNewCount(e.target.value)} id="count" min={1}/>
-                <button className="w-full bg-green-500 text-white p-2 rounded" onClick={() => {handleCreateItem()}}>Create</button>
+                <button className="w-full bg-green-500 text-white p-2 rounded hover:bg-green-500/50" onClick={() => {handleCreateItem()}}>Create</button>
             </div>
         </>
     )
