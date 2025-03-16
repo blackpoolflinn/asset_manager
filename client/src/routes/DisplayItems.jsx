@@ -2,28 +2,20 @@ import useItems from "../hooks/items";
 import React, { useState } from 'react'
 import CreateItem from "./CreateItem";
 import DeleteItem from "./DeleteItem";
-import Header from "./Header";
 import EditItem from "./EditItem";
+import { FaArrowDown } from "react-icons/fa";
 
 const DisplayItems = () => {
     const[items, loadItems, addItem, removeItem] = useItems()
-    const [addOpen, setAddOpen] = useState(true)
-    let name = document.getElementById("name")
-    let cost = document.getElementById("cost")
-    let description = document.getElementById("description")
-    let vendor = document.getElementById("vendor")
-    let count = document.getElementById("count")
+    const [addOpen, setAddOpen] = useState(false)
 
     const handleCreatedItem = (response, newName, newCost, newDescription, newVendor, newCount) => {
-        name.value = '' //Resets fields so another item can be added
-        cost.value = ''
-        description.value = '' 
-        vendor.value = ''
-        count.value = '' 
         addItem(response.id, newName, newCost, newDescription, newVendor, newCount)
     }
 
     return (
+      <>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=edit_square" />
       <div className="p-6 bg-gray-100 min-h-screen">
         <div className="container">
           {/* Header */}
@@ -49,7 +41,6 @@ const DisplayItems = () => {
                         <button className="bg-green-500 text-white px-3 py-2 rounded">Export as CSV</button>
                     </div>
                 </div>
-              
               <table className="w-full border-collapse table-fixed overflow-x-auto">
                 <thead>
                     <tr className="bg-gray-200">
@@ -71,9 +62,7 @@ const DisplayItems = () => {
                         <td className="p-2 border overflow-x-auto">{item.product_description}</td>
                         <td className="p-2 border">{item.product_vendor}</td>
                         <td className="p-2 border">{item.product_count}</td>
-                        <td className="p-2 border">
-                        <DeleteItem itemID={item.product_id} handleRemovedItem={(id) => {removeItem(id)}} />
-                        </td>
+                        <td className="border hover:bg-red-500 h-full text-centre"><DeleteItem itemID={item.product_id} handleRemovedItem={(id) => {removeItem(id)}} /></td>
                     </tr>
                     ))}
                 </tbody>
@@ -99,6 +88,7 @@ const DisplayItems = () => {
           </div>
         </div>
         </div>
+        </>
       );
 
 }

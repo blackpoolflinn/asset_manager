@@ -6,6 +6,11 @@ const CreateItem = ({handleCreatedItem}) => {
     const [newDescription, setNewDescription] = useState('')
     const [newVendor, setNewVendor] = useState('')
     const [newCount, setNewCount] = useState(0)
+    let name = document.getElementById("name")
+    let cost = document.getElementById("cost")
+    let description = document.getElementById("description")
+    let vendor = document.getElementById("vendor")
+    let count = document.getElementById("count")
 
     const handleCreateItem = () => {
         if(newName.length <= 0 || newName.trim().length <= 0 
@@ -26,6 +31,11 @@ const CreateItem = ({handleCreatedItem}) => {
               resp => resp.json()
             ).then((response) => {
                 handleCreatedItem(response, newName, newCost, newDescription, newVendor, newCount)
+                name.value = '' //Resets fields so another item can be added
+                cost.value = ''
+                description.value = '' 
+                vendor.value = ''
+                count.value = '' 
             })
     }
 

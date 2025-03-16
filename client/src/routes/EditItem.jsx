@@ -5,15 +5,56 @@ const EditItem = () => {
     const [isOpen, setIsOpen] = useState(false);
     const[items, loadItems, addItem, removeItem] = useItems()
     const [selectedItem, setSelectedItem] = useState({})
+    const [nameOpen, setNameOpen] = useState(false)
+    const [costOpen, setCostOpen] = useState(false)
+    const [descriptionOpen, setDescriptionOpen] = useState(false)
+    const [vendorOpen, setVendorOpen] = useState(false)
+    const [countOpen, setCountOpen] = useState(false)
+    const [newName, setNewName] = useState('')
+    const [newCost, setNewCost] = useState(0.0)
+    const [newDescription, setNewDescription] = useState('')
+    const [newVendor, setNewVendor] = useState('')
+    const [newCount, setNewCount] = useState(0)
 
     const setItem = (id) => {
         setIsOpen(!isOpen)
         setSelectedItem(items[id])
     }
 
+    const handleEditedItem = (selectedItem, type, itemData) => {
+        fetch(`/api/items/product_${type}/${selectedItem.product_id}`, {
+            method: "PATCH", //PATCH request which updates data
+            headers: {
+                "Content-type": "application/json" //formatting so the server is able to use the data
+            },
+            body: JSON.stringify({data: itemData})}) //stringifying the body to send the data to server
+        .then(resp => resp.json())
+        .then() 
+    }
+
+    const setName = (selectedItem, type, data) => {
+        setNameOpen(!nameOpen)
+        handleEditedItem(selectedItem, type, data)
+    }
+    const setCost = (selectedItem, type, data) => {
+        setCostOpen(!costOpen)
+        handleEditedItem(selectedItem, type, data)
+    }
+    const setDescription = (selectedItem, type, data) => {
+        setDescriptionOpen(!descriptionOpen)
+        handleEditedItem(selectedItem, type, data)
+    }
+    const setVendor = (selectedItem, type, data) => {
+        setVendorOpen(!vendorOpen)
+        handleEditedItem(selectedItem, type, data)
+    }
+    const setCount = (selectedItem, type, data) => {
+        setCountOpen(!countOpen)
+        handleEditedItem(selectedItem, type, data)
+    }
+
     return (
         <>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=edit_square" />
         <div className="relative inline-block text-left w-full py-2">
             { Object.keys(selectedItem).length === 0 ?
             <button onClick={() => setIsOpen(!isOpen)} className="hover:bg-slate-400/15 hover:text-white px-4 rounded-md focus:outline-none mb-2 w-full text-black bg-white outline-slate-400/15 outline">
@@ -53,40 +94,80 @@ const EditItem = () => {
          : 
         <table className="w-full border-collapse table-fixed">
             <tbody className="w-full">
-                <tr className="odd:bg-gray-50 even:bg-white text-center">
-                    <td className="p-2 border">Name</td>
-                    <td className="p-2 border overflow-auto">{selectedItem.product_name}</td>
-                    <td className="border w-1/4 hover:bg-green-500/15">
-                        <button className="w-full h-full"><span class="material-symbols-outlined">edit_square</span></button>
-                    </td>
+            <tr className="odd:bg-gray-50 even:bg-white text-center">
+                <td className="p-2 border">Name</td>
+                    {!nameOpen ? <>
+                        <td className="p-2 border overflow-auto">{selectedItem.product_name}</td>
+                        <td className="border w-1/4 hover:bg-green-500/15">
+                        <button className="w-full h-full" onClick={() => setNameOpen(!nameOpen)}><span class="material-symbols-outlined">edit_square</span></button>
+                        </td>
+                    </> : <>
+                        <td className="p-2 border overflow-auto"><input type="text" placeholder={selectedItem.product_name} className="w-full p-2 border rounded" onChange={e => setNewName(e.target.value)} id="name" min={1}/></td>
+                        <td className="border w-1/4 hover:bg-green-500/15">
+                        <button className="w-full h-full" onClick={() => setName(selectedItem, "name", newName)}>Submit</button>
+                        </td>
+                    </>
+                    }
                 </tr>
                 <tr className="odd:bg-gray-50 even:bg-white text-center">
                     <td className="p-2 border">Cost</td>
-                    <td className="p-2 border overflow-auto">{selectedItem.product_cost}</td>
-                    <td className="border w-1/4 hover:bg-green-500/15">
-                        <button className="w-full h-full"><span class="material-symbols-outlined">edit_square</span></button>
-                    </td>
+                    {!costOpen ? <>
+                        <td className="p-2 border overflow-auto">{selectedItem.product_cost}</td>
+                        <td className="border w-1/4 hover:bg-green-500/15">
+                        <button className="w-full h-full" onClick={() => setCostOpen(!costOpen)}><span class="material-symbols-outlined">edit_square</span></button>
+                        </td>
+                    </> : <>
+                        <td className="p-2 border overflow-auto"><input type="number" placeholder={selectedItem.product_cost} className="w-full p-2 border rounded" onChange={e => setNewCost(e.target.value)} id="cost" min={1}/></td>
+                        <td className="border w-1/4 hover:bg-green-500/15">
+                        <button className="w-full h-full" onClick={() => setCost(selectedItem, "cost", newCost)}>Submit</button>
+                        </td>
+                    </>
+                    }
                 </tr>
                 <tr className="odd:bg-gray-50 even:bg-white text-center">
                     <td className="p-2 border">Description</td>
-                    <td className="p-2 border overflow-auto">{selectedItem.product_description}</td>
-                    <td className="border w-1/4 hover:bg-green-500/15">
-                        <button className="w-full h-full"><span class="material-symbols-outlined">edit_square</span></button>
-                    </td>
+                    {!descriptionOpen ? <>
+                        <td className="p-2 border overflow-auto">{selectedItem.product_description}</td>
+                        <td className="border w-1/4 hover:bg-green-500/15">
+                        <button className="w-full h-full" onClick={() => setDescriptionOpen(!descriptionOpen)}><span class="material-symbols-outlined">edit_square</span></button>
+                        </td>
+                    </> : <>
+                        <td className="p-2 border overflow-auto"><input type="text" placeholder={selectedItem.product_description} className="w-full p-2 border rounded" onChange={e => setNewDescription(e.target.value)} id="description" min={1}/></td>
+                        <td className="border w-1/4 hover:bg-green-500/15">
+                        <button className="w-full h-full" onClick={() => setDescription(selectedItem, "description", newDescription)}>Submit</button>
+                        </td>
+                    </>
+                    }
                 </tr>
                 <tr className="odd:bg-gray-50 even:bg-white text-center">
-                    <td className="p-2 border w-1/4">Vendor</td>
-                    <td className="p-2 border overflow-auto">{selectedItem.product_vendor}</td>
-                    <td className="border w-1/4 hover:bg-green-500/15">
-                        <button className="w-full h-full"><span class="material-symbols-outlined">edit_square</span></button>
-                    </td>
+                    <td className="p-2 border">Vendor</td>
+                    {!vendorOpen ? <>
+                        <td className="p-2 border overflow-auto">{selectedItem.product_vendor}</td>
+                        <td className="border w-1/4 hover:bg-green-500/15">
+                        <button className="w-full h-full" onClick={() => setVendorOpen(!vendorOpen)}><span class="material-symbols-outlined">edit_square</span></button>
+                        </td>
+                    </> : <>
+                        <td className="p-2 border overflow-auto"><input type="text" placeholder={selectedItem.product_vendor} className="w-full p-2 border rounded" onChange={e => setNewVendor(e.target.value)} id="vendor" min={1}/></td>
+                        <td className="border w-1/4 hover:bg-green-500/15">
+                        <button className="w-full h-full" onClick={() => setVendor(selectedItem, "vendor", newVendor)}>Submit</button>
+                        </td>
+                    </>
+                    }
                 </tr>
                 <tr className="odd:bg-gray-50 even:bg-white text-center">
                     <td className="p-2 border">Count</td>
-                    <td className="p-2 border overflow-auto">{selectedItem.product_count}</td>
-                    <td className="border w-1/4 hover:bg-green-500/15">
-                        <button className="w-full h-full"><span class="material-symbols-outlined">edit_square</span></button>
-                    </td>
+                    {!countOpen ? <>
+                        <td className="p-2 border overflow-auto">{selectedItem.product_count}</td>
+                        <td className="border w-1/4 hover:bg-green-500/15">
+                        <button className="w-full h-full" onClick={() => setCountOpen(!countOpen)}><span class="material-symbols-outlined">edit_square</span></button>
+                        </td>
+                    </> : <>
+                        <td className="p-2 border overflow-auto"><input type="number" placeholder="Count" className="w-full p-2 border rounded" onChange={e => setNewCount(e.target.value)} id="count" min={1}/></td>
+                        <td className="border w-1/4 hover:bg-green-500/15">
+                        <button className="w-full h-full" onClick={() => setCount(selectedItem, "count", newCount)}>Submit</button>
+                        </td>
+                    </>
+                    }
                 </tr>
             </tbody>
         </table>

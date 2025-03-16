@@ -36,6 +36,7 @@ class DB {
         try {
             const statement = database.prepare(q)
             const data = statement.run(...params);
+            console.log(data)
             return data;
         } catch (error) {
             console.error(error)

@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { RiDeleteBin6Line } from "react-icons/ri";
 
 const DeleteItem = ({handleRemovedItem, itemID}) => {
 
@@ -12,7 +13,7 @@ const DeleteItem = ({handleRemovedItem, itemID}) => {
     }
 
     return (
-        <button className='duration-200 hover:text-red-500' onClick={handleRemoveItem}>Delete</button>
+        <button className='duration-200 w-full min-h-full justify-center' onClick={handleRemoveItem}><span class="material-symbols-outlined"><RiDeleteBin6Line /></span></button>
     )
 }
 
