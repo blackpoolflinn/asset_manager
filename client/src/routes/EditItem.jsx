@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import useItems from "../hooks/items";
 
-const EditItem = () => {
+const EditItem = ({handleEditedItem, items}) => {
     const [isOpen, setIsOpen] = useState(false);
-    const[items, loadItems, addItem, removeItem] = useItems()
-    const [selectedItem, setSelectedItem] = useState({})
+    const [selectedItem, setSelectedItem] = useState(null)
     const [nameOpen, setNameOpen] = useState(false)
     const [costOpen, setCostOpen] = useState(false)
     const [descriptionOpen, setDescriptionOpen] = useState(false)
@@ -18,45 +17,45 @@ const EditItem = () => {
 
     const setItem = (id) => {
         setIsOpen(!isOpen)
-        setSelectedItem(items[id])
+        setSelectedItem(id)
     }
 
-    const handleEditedItem = (selectedItem, type, itemData) => {
-        fetch(`/api/items/product_${type}/${selectedItem.product_id}`, {
+    const handleEditItem = (selectedItem, type, itemData) => {
+        fetch(`/api/items/${type}/${selectedItem.product_id}`, {
             method: "PATCH", //PATCH request which updates data
             headers: {
                 "Content-type": "application/json" //formatting so the server is able to use the data
             },
             body: JSON.stringify({data: itemData})}) //stringifying the body to send the data to server
         .then(resp => resp.json())
-        .then() 
+        .then(handleEditedItem(selectedItem.product_id, type, itemData)) 
     }
 
     const setName = (selectedItem, type, data) => {
         setNameOpen(!nameOpen)
-        handleEditedItem(selectedItem, type, data)
+        handleEditItem(selectedItem, type, data)
     }
     const setCost = (selectedItem, type, data) => {
         setCostOpen(!costOpen)
-        handleEditedItem(selectedItem, type, data)
+        handleEditItem(selectedItem, type, data)
     }
     const setDescription = (selectedItem, type, data) => {
         setDescriptionOpen(!descriptionOpen)
-        handleEditedItem(selectedItem, type, data)
+        handleEditItem(selectedItem, type, data)
     }
     const setVendor = (selectedItem, type, data) => {
         setVendorOpen(!vendorOpen)
-        handleEditedItem(selectedItem, type, data)
+        handleEditItem(selectedItem, type, data)
     }
     const setCount = (selectedItem, type, data) => {
         setCountOpen(!countOpen)
-        handleEditedItem(selectedItem, type, data)
+        handleEditItem(selectedItem, type, data)
     }
 
     return (
         <>
         <div className="relative inline-block text-left w-full py-2">
-            { Object.keys(selectedItem).length === 0 ?
+            { items[selectedItem] == null && items[selectedItem] == undefined ?
             <button onClick={() => setIsOpen(!isOpen)} className="hover:bg-slate-400/15 hover:text-white px-4 rounded-md focus:outline-none mb-2 w-full text-black bg-white outline-slate-400/15 outline">
                 <div className="flex justify-between">
                     <div className="opacity-25">Select item...</div>
@@ -66,7 +65,7 @@ const EditItem = () => {
             :
             <button onClick={() => setIsOpen(!isOpen)} className="hover:bg-slate-400/15 hover:text-white px-4 rounded-md focus:outline-none mb-2 w-full text-black bg-white outline-slate-400/15 outline">
                 <div className="flex justify-between">
-                    <div className="text-center align-middle">{selectedItem.product_name}</div>
+                    <div className="text-center align-middle">{items[selectedItem].product_name}</div>
                     <div className="font-bold text-xl">↓</div>
                 </div>
             </button>}
@@ -89,7 +88,7 @@ const EditItem = () => {
                 </div>
             )}
         </div>
-        { Object.keys(selectedItem).length === 0 ?
+        { items[selectedItem] == null && items[selectedItem] == undefined ?
         <></>
          : 
         <table className="w-full border-collapse table-fixed">
@@ -97,14 +96,14 @@ const EditItem = () => {
             <tr className="odd:bg-gray-50 even:bg-white text-center">
                 <td className="p-2 border">Name</td>
                     {!nameOpen ? <>
-                        <td className="p-2 border overflow-auto">{selectedItem.product_name}</td>
+                        <td className="p-2 border overflow-auto">{items[selectedItem].product_name}</td>
                         <td className="border w-1/4 hover:bg-green-500/15">
                         <button className="w-full h-full" onClick={() => setNameOpen(!nameOpen)}><span class="material-symbols-outlined">edit_square</span></button>
                         </td>
                     </> : <>
-                        <td className="p-2 border overflow-auto"><input type="text" placeholder={selectedItem.product_name} className="w-full p-2 border rounded" onChange={e => setNewName(e.target.value)} id="name" min={1}/></td>
+                        <td className="p-2 border overflow-auto"><input type="text" placeholder={items[selectedItem].product_name} className="w-full p-2 border rounded" onChange={e => setNewName(e.target.value)} id="name" min={1}/></td>
                         <td className="border w-1/4 hover:bg-green-500/15">
-                        <button className="w-full h-full" onClick={() => setName(selectedItem, "name", newName)}>Submit</button>
+                        <button className="w-full h-full" onClick={() => setName(items[selectedItem], "product_name", newName)}>Submit</button>
                         </td>
                     </>
                     }
@@ -112,14 +111,14 @@ const EditItem = () => {
                 <tr className="odd:bg-gray-50 even:bg-white text-center">
                     <td className="p-2 border">Cost</td>
                     {!costOpen ? <>
-                        <td className="p-2 border overflow-auto">{selectedItem.product_cost}</td>
+                        <td className="p-2 border overflow-auto">{items[selectedItem].product_cost}</td>
                         <td className="border w-1/4 hover:bg-green-500/15">
                         <button className="w-full h-full" onClick={() => setCostOpen(!costOpen)}><span class="material-symbols-outlined">edit_square</span></button>
                         </td>
                     </> : <>
-                        <td className="p-2 border overflow-auto"><input type="number" placeholder={selectedItem.product_cost} className="w-full p-2 border rounded" onChange={e => setNewCost(e.target.value)} id="cost" min={1}/></td>
+                        <td className="p-2 border overflow-auto"><input type="number" placeholder={items[selectedItem].product_cost} className="w-full p-2 border rounded" onChange={e => setNewCost(e.target.value)} id="cost" min={1}/></td>
                         <td className="border w-1/4 hover:bg-green-500/15">
-                        <button className="w-full h-full" onClick={() => setCost(selectedItem, "cost", newCost)}>Submit</button>
+                        <button className="w-full h-full" onClick={() => setCost(items[selectedItem], "product_cost", newCost)}>Submit</button>
                         </td>
                     </>
                     }
@@ -127,14 +126,14 @@ const EditItem = () => {
                 <tr className="odd:bg-gray-50 even:bg-white text-center">
                     <td className="p-2 border">Description</td>
                     {!descriptionOpen ? <>
-                        <td className="p-2 border overflow-auto">{selectedItem.product_description}</td>
+                        <td className="p-2 border overflow-auto">{items[selectedItem].product_description}</td>
                         <td className="border w-1/4 hover:bg-green-500/15">
                         <button className="w-full h-full" onClick={() => setDescriptionOpen(!descriptionOpen)}><span class="material-symbols-outlined">edit_square</span></button>
                         </td>
                     </> : <>
-                        <td className="p-2 border overflow-auto"><input type="text" placeholder={selectedItem.product_description} className="w-full p-2 border rounded" onChange={e => setNewDescription(e.target.value)} id="description" min={1}/></td>
+                        <td className="p-2 border overflow-auto"><input type="text" placeholder={items[selectedItem].product_description} className="w-full p-2 border rounded" onChange={e => setNewDescription(e.target.value)} id="description" min={1}/></td>
                         <td className="border w-1/4 hover:bg-green-500/15">
-                        <button className="w-full h-full" onClick={() => setDescription(selectedItem, "description", newDescription)}>Submit</button>
+                        <button className="w-full h-full" onClick={() => setDescription(items[selectedItem], "product_description", newDescription)}>Submit</button>
                         </td>
                     </>
                     }
@@ -142,14 +141,14 @@ const EditItem = () => {
                 <tr className="odd:bg-gray-50 even:bg-white text-center">
                     <td className="p-2 border">Vendor</td>
                     {!vendorOpen ? <>
-                        <td className="p-2 border overflow-auto">{selectedItem.product_vendor}</td>
+                        <td className="p-2 border overflow-auto">{items[selectedItem].product_vendor}</td>
                         <td className="border w-1/4 hover:bg-green-500/15">
                         <button className="w-full h-full" onClick={() => setVendorOpen(!vendorOpen)}><span class="material-symbols-outlined">edit_square</span></button>
                         </td>
                     </> : <>
-                        <td className="p-2 border overflow-auto"><input type="text" placeholder={selectedItem.product_vendor} className="w-full p-2 border rounded" onChange={e => setNewVendor(e.target.value)} id="vendor" min={1}/></td>
+                        <td className="p-2 border overflow-auto"><input type="text" placeholder={items[selectedItem].product_vendor} className="w-full p-2 border rounded" onChange={e => setNewVendor(e.target.value)} id="vendor" min={1}/></td>
                         <td className="border w-1/4 hover:bg-green-500/15">
-                        <button className="w-full h-full" onClick={() => setVendor(selectedItem, "vendor", newVendor)}>Submit</button>
+                        <button className="w-full h-full" onClick={() => setVendor(items[selectedItem], "product_vendor", newVendor)}>Submit</button>
                         </td>
                     </>
                     }
@@ -157,14 +156,14 @@ const EditItem = () => {
                 <tr className="odd:bg-gray-50 even:bg-white text-center">
                     <td className="p-2 border">Count</td>
                     {!countOpen ? <>
-                        <td className="p-2 border overflow-auto">{selectedItem.product_count}</td>
+                        <td className="p-2 border overflow-auto">{items[selectedItem].product_count}</td>
                         <td className="border w-1/4 hover:bg-green-500/15">
                         <button className="w-full h-full" onClick={() => setCountOpen(!countOpen)}><span class="material-symbols-outlined">edit_square</span></button>
                         </td>
                     </> : <>
                         <td className="p-2 border overflow-auto"><input type="number" placeholder="Count" className="w-full p-2 border rounded" onChange={e => setNewCount(e.target.value)} id="count" min={1}/></td>
                         <td className="border w-1/4 hover:bg-green-500/15">
-                        <button className="w-full h-full" onClick={() => setCount(selectedItem, "count", newCount)}>Submit</button>
+                        <button className="w-full h-full" onClick={() => setCount(items[selectedItem], "product_count", newCount)}>Submit</button>
                         </td>
                     </>
                     }

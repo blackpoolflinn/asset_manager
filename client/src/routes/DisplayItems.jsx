@@ -3,10 +3,9 @@ import React, { useState } from 'react'
 import CreateItem from "./CreateItem";
 import DeleteItem from "./DeleteItem";
 import EditItem from "./EditItem";
-import { FaArrowDown } from "react-icons/fa";
 
 const DisplayItems = () => {
-    const[items, loadItems, addItem, removeItem] = useItems()
+    const[items, loadItems, addItem, removeItem, editItem] = useItems()
     const [addOpen, setAddOpen] = useState(false)
 
     const handleCreatedItem = (response, newName, newCost, newDescription, newVendor, newCount) => {
@@ -46,11 +45,11 @@ const DisplayItems = () => {
                     <tr className="bg-gray-200">
                     <th className="p-2 border">Product ID</th>    
                     <th className="p-2 border">Product Name</th>
-                    <th className="p-2 border">Product Cost</th>
+                    <th className="p-2 border">Product Cost (£)</th>
                     <th className="p-2 border">Product Description</th>
                     <th className="p-2 border">Product Vendor</th>
                     <th className="p-2 border">Product Count</th>
-                    <th className="p-2 border"></th>
+                    <th className="p-2 border">Delete</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -82,7 +81,7 @@ const DisplayItems = () => {
                     <button className="px-3 py-1 rounded w-full outline-green-500 outline outline-1 font-semibold text-green-500" onClick={() => setAddOpen(!addOpen)}>Add</button>
                     <button className="bg-green-500/50 px-3 py-1 rounded w-full text-white font-semibold">Edit</button>
                 </div>
-                <EditItem/>
+                <EditItem handleEditedItem={(id, type, data) => {editItem(id, type, data)}} items={items}/>
                 </>}
             </div>
           </div>

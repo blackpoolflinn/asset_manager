@@ -26,12 +26,24 @@ const useItems = () => {
 
     const removeItem = (id) => {
         const updatedItems = items.filter((item) => {
-            return item.product_id != id
+            return item.product_id !== id
         })
         setItems(updatedItems)
     }
 
-    return [items, loadItems, addItem, removeItem] //exporting all the functions for useItems hook
+    const editItem = (id, type, data) => {
+        const updatedItems = items.filter((item) => {
+            if (item.product_id === id){
+                item[type] = data
+                return item
+            } else {
+                return item
+            }
+        })
+        setItems(updatedItems)
+    }
+
+    return [items, loadItems, addItem, removeItem, editItem] //exporting all the functions for useItems hook
 
 }
 
