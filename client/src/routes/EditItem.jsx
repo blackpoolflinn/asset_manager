@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import useItems from "../hooks/items";
 
 const EditItem = ({handleEditedItem, items}) => {
     const [isOpen, setIsOpen] = useState(false);

@@ -1,4 +1,3 @@
-import React, { useState } from 'react'
 import { RiDeleteBin6Line } from "react-icons/ri";
 
 const DeleteItem = ({handleRemovedItem, itemID}) => {

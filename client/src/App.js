@@ -7,7 +7,7 @@ import useItems from "./hooks/items";
 
 const App = () => {
 
-  const {data, isLoading} = useItems()
+  const {isLoading} = useItems()
   if(isLoading){
     return(
       <h1>Loading</h1> //if session hasn't loaded return isloading 

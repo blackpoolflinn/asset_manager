@@ -4,9 +4,10 @@ import CreateItem from "./CreateItem";
 import DeleteItem from "./DeleteItem";
 import EditItem from "./EditItem";
 import CsvDownloader from "./ExportToCsv";
+import { FaCircleUser } from "react-icons/fa6";
 
 const DisplayItems = () => {
-    const[items, loadItems, addItem, removeItem, editItem] = useItems()
+    const[items, addItem, removeItem, editItem] = useItems()
     const [addOpen, setAddOpen] = useState(false)
     const [searchQuery, setSearchQuery] = useState("");
     const [filteredItems, setFilteredItems] = useState(items);
@@ -40,6 +41,12 @@ const DisplayItems = () => {
           {/* Header */}
           <div className="bg-green-500/50 p-3 rounded-md flex justify-between items-center">
             <span className="font-semibold text-white">Inventory dashboard</span>
+            <button className="font-semibold text-white hover:opacity-50">
+              <div className="flex items-center justify-between gap-2">
+                Login
+                <FaCircleUser />
+              </div>
+            </button>
           </div>
           
           {/* Main Content */}
@@ -53,7 +60,7 @@ const DisplayItems = () => {
                         <button className="bg-green-500 text-white px-3 py-1 rounded" onClick={searchItems}>Search</button>
                     </div>
                     <div className="flex gap-2">
-                      <button className="bg-green-500 text-white px-3 py-2 rounded">Export CSV</button>
+                        <CsvDownloader data={filteredItems}/>
                     </div>
                 </div>
               <table className="w-full border-collapse table-fixed overflow-x-auto">
