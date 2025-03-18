@@ -56,14 +56,14 @@ const EditItem = ({handleEditedItem, items}) => {
         <>
         <div className="relative inline-block text-left w-full py-2">
             { items[selectedItem] == null && items[selectedItem] == undefined ?
-            <button onClick={() => setIsOpen(!isOpen)} className="hover:bg-slate-400/15 hover:text-white px-4 rounded-md focus:outline-none mb-2 w-full text-black bg-white outline-slate-400/15 outline">
+            <button onClick={() => setIsOpen(!isOpen)} className="hover:bg-slate-400/15 hover:text-white hover:opacity-100 opacity-25 font-semibold px-4 rounded-md focus:outline-none mb-2 w-full bg-white outline-slate-400/15 outline">
                 <div className="flex justify-between">
-                    <div className="opacity-25">Select item...</div>
+                    <div className="">Select item...</div>
                     <div className="font-bold text-xl">↓</div>
                 </div>
             </button>
             :
-            <button onClick={() => setIsOpen(!isOpen)} className="hover:bg-slate-400/15 hover:text-white px-4 rounded-md focus:outline-none mb-2 w-full text-black bg-white outline-slate-400/15 outline">
+            <button onClick={() => setIsOpen(!isOpen)} className="hover:bg-slate-400/15 hover:text-white font-semibold px-4 rounded-md text-black focus:outline-none mb-2 w-full bg-white outline-slate-400/15 outline">
                 <div className="flex justify-between">
                     <div className="text-center align-middle">{items[selectedItem].product_name}</div>
                     <div className="font-bold text-xl">↓</div>

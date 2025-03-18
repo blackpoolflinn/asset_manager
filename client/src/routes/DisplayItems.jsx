@@ -1,16 +1,36 @@
 import useItems from "../hooks/items";
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import CreateItem from "./CreateItem";
 import DeleteItem from "./DeleteItem";
 import EditItem from "./EditItem";
+import CsvDownloader from "./ExportToCsv";
 
 const DisplayItems = () => {
     const[items, loadItems, addItem, removeItem, editItem] = useItems()
     const [addOpen, setAddOpen] = useState(false)
+    const [searchQuery, setSearchQuery] = useState("");
+    const [filteredItems, setFilteredItems] = useState(items);
 
     const handleCreatedItem = (response, newName, newCost, newDescription, newVendor, newCount) => {
         addItem(response.id, newName, newCost, newDescription, newVendor, newCount)
     }
+
+    useEffect(() => {
+      setFilteredItems(items);
+    }, [items]);
+
+    const searchItems = () => {
+      if (!searchQuery) {
+          setFilteredItems(items);
+          return;
+      }
+      const filteredData = items.filter(item => 
+          Object.values(item).some(value => 
+              String(value).toLowerCase().includes(searchQuery.toLowerCase())
+          )
+      );
+      setFilteredItems(filteredData);
+  };
 
     return (
       <>
@@ -29,15 +49,11 @@ const DisplayItems = () => {
               {/* Search Bar & Actions */}
                 <div className="mb-4 flex justify-between items-center">
                     <div className="flex gap-2 w-1/3">
-                        <input 
-                            type="text" 
-                            placeholder="Search" 
-                            className="p-2 border rounded flex-1" 
-                        />
-                        <button className="bg-green-500 text-white px-3 py-1 rounded">Search</button>
+                        <input type="text" placeholder="Search" className="p-2 border rounded flex-1" value={searchQuery} onChange={e => setSearchQuery(e.target.value)}/>
+                        <button className="bg-green-500 text-white px-3 py-1 rounded" onClick={searchItems}>Search</button>
                     </div>
                     <div className="flex gap-2">
-                        <button className="bg-green-500 text-white px-3 py-2 rounded">Export as CSV</button>
+                      <button className="bg-green-500 text-white px-3 py-2 rounded">Export CSV</button>
                     </div>
                 </div>
               <table className="w-full border-collapse table-fixed overflow-x-auto">
@@ -53,7 +69,7 @@ const DisplayItems = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {items !== null && items.map((item, i) => ( //checks whether items array is empty and continues if not
+                    {filteredItems !== null && filteredItems.map((item, i) => ( //checks whether items array is empty and continues if not
                     <tr key={i} className="odd:bg-gray-50 even:bg-white text-center">
                         <td className="p-2 border">{item.product_id}</td>
                         <td className="p-2 border">{item.product_name}</td>
@@ -68,7 +84,7 @@ const DisplayItems = () => {
               </table>
             </div>
             {/* Sidebar */}
-            <div className="bg-white p-4 rounded-lg shadow-md">
+            <div className="bg-white p-4 rounded-lg shadow-md max-h-min">
               <h2 className="text-lg font-semibold mb-2 text-center bg-green-500 text-white p-2 rounded">Manage Inventory</h2>
               {!addOpen ? <>
                 <div className="flex mb-2 w-full gap-2">
