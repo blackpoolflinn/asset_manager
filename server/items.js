@@ -2,7 +2,7 @@ const router = require('express').Router();
 const db = require("./db")
 
 router.get('/api/items', async (req, res) => { //async so the program doesn't move on until the request is complete
-    let result = await db.search("SELECT * FROM `Products`", []) //select all the products
+    let result = await db.search("SELECT * FROM `Products` WHERE user_id = ?", [req.session.user.id]) //select all the products
     res.send({result}) 
 })
 
@@ -19,7 +19,7 @@ router.post('/api/item', async (req, res) => { //async so the program doesn't mo
     || count.length <= 0 || count.trim().length <= 0){
       return
     }
-    let result = await db.insert("INSERT INTO Products (product_name, product_cost, product_description, product_vendor, product_count) VALUES (?,?,?,?,?)", [name,cost,description,vendor,count])
+    let result = await db.insert("INSERT INTO Products (product_name, product_cost, product_description, product_vendor, product_count, user_id) VALUES (?,?,?,?,?,?)", [name,cost,description,vendor,count, req.session.user.id])
     res.send({id: result.lastInsertRowid})
   })
 
