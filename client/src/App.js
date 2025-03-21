@@ -5,6 +5,7 @@ import DisplayItems from "./routes/DisplayItems";
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 import useUsers from "./hooks/useUsers";
 import Login from "./routes/Login";
+import Register from "./routes/Register";
 
 const App = () => {
 
@@ -25,6 +26,8 @@ const App = () => {
         ): 
           <> {/* Routes for user that isn't logged in */}
             <Route path="*" element={<Login />}/> {/* If user enters unknown URL redirects to this page */}
+            <Route path="register" element={<Register />}/>
+            <Route path="login" element={<Login />}/>
           </>}
       </Routes>
     </BrowserRouter>
