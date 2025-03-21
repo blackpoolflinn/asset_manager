@@ -39,6 +39,40 @@ app.get('/api/logout', async(req, res) => {
   })
 })
 
+app.post('/api/register', async(req, res) => {
+  const username = req.body.username
+  let password = req.body.password
+  if(username.length <= 0 || username.trim().length <= 0 || password.length <= 0 || password.trim().length <= 0){
+    return
+  }
+  password = String(hashPassword(password))
+  let result = await db.insert("INSERT INTO `Users` (`username`, `password`) VALUES (?, ?)", [username, password])
+  if(result.insertId !== ''){
+    res.status(200).send({success: true})
+  } else {
+    res.status(200).send({success: false})
+  }
+})
+
+app.post('/api/login', async(req, res) => {
+  const username = req.body.username
+  let password = req.body.password
+  if(username.length <= 0 || username.trim().length <= 0 || password.length <= 0 || password.trim().length <= 0){
+    return
+  }
+  let result = await db.search("SELECT `user_id`, `password` FROM `Users` WHERE `username`= ?", [username])
+  if(result.length !== 0){
+    if(comparePassword(password, result.password)){
+      req.session.user = {id: result[0].user_id, username: username}
+      res.status(200).send({success: true, id: result[0].id})
+    } else {
+      res.status(200).send({success: false, reason: "incorrect password"})
+    }
+  } else {
+      res.status(200).send({success: false, reason: "incorrect username"})
+  }
+})
+
 app.listen(PORT, () => {
   console.log(`Server listening on ${PORT}`);
 });
