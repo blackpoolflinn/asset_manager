@@ -3,21 +3,29 @@ import React from "react";
 import "./App.css";
 import DisplayItems from "./routes/DisplayItems";
 import { Routes, Route, BrowserRouter } from "react-router-dom";
-import useItems from "./hooks/items";
+import useUsers from "./hooks/useUsers";
+import Login from "./routes/Login";
 
 const App = () => {
 
-  const {isLoading} = useItems()
+  const {data, isLoading} = useUsers()
   if(isLoading){
     return(
-      <h1>Loading</h1> //if session hasn't loaded return isloading 
+      <h1>isLoading</h1> //if session hasn't loaded return isloading 
     )
   }
 
   return (
     <BrowserRouter basename="/"> {/* base path */}
       <Routes>
-          <Route path="*" element={<DisplayItems/>}/> {/* all path where if the user enters unkown URL and they are logged in it redirects back to this page */}
+      {data.isAuthenticated ? ( 
+          <> {/* Routes for users that are logged in */}
+            <Route path="*" element={<DisplayItems/>}/> {/* If user enters unkown URL redirected to this page */}
+          </>
+        ): 
+          <> {/* Routes for user that isn't logged in */}
+            <Route path="*" element={<Login />}/> {/* If user enters unknown URL redirects to this page */}
+          </>}
       </Routes>
     </BrowserRouter>
   )

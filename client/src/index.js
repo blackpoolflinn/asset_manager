@@ -1,11 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
+import {QueryClient, QueryClientProvider } from '@tanstack/react-query'
+
+export const queryClient = new QueryClient() 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+    <QueryClientProvider client={queryClient}> {/*creates the query provider singleton to be used else where within the frontend to handle data recieved from the backend*/}
+      <App />
+    </QueryClientProvider>
   </React.StrictMode>
 );
 
