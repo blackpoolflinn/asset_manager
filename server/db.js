@@ -6,6 +6,29 @@ const database = new DatabaseSync('data.db');
 
 class DB {
 
+    constructor() {
+        database.exec(`
+            CREATE TABLE IF NOT EXISTS "Users" (
+                "user_id" INTEGER PRIMARY KEY AUTOINCREMENT,
+                "username" TEXT NOT NULL,
+                "password" TEXT NOT NULL
+            );
+        `);
+        
+        database.exec(`
+            CREATE TABLE IF NOT EXISTS "Products" (
+                "product_id" INTEGER PRIMARY KEY AUTOINCREMENT,
+                "product_name" TEXT NOT NULL,
+                "product_cost" REAL NOT NULL,
+                "product_description" TEXT,
+                "product_vendor" TEXT,
+                "product_count" INTEGER NOT NULL,
+                "user_id" INTEGER NOT NULL,
+                FOREIGN KEY ("user_id") REFERENCES "Users" ("user_id") ON DELETE CASCADE
+            );
+        `);
+      }
+
     /**
      * Private function to handle pool connections and query errors
      * @param {*string} query 
