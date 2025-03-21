@@ -1,9 +1,9 @@
 import useItems from "../hooks/items";
 import React, { useState, useEffect } from 'react'
-import CreateItem from "./CreateItem";
-import DeleteItem from "./DeleteItem";
-import EditItem from "./EditItem";
-import CsvDownloader from "./ExportToCsv";
+import CreateItem from "../Utils/CreateItem";
+import DeleteItem from "../Utils/DeleteItem";
+import EditItem from "../Utils/EditItem";
+import CsvDownloader from "../Utils/ExportToCsv";
 import { FaCircleUser } from "react-icons/fa6";
 
 const DisplayItems = () => {
