@@ -5,12 +5,17 @@ import DeleteItem from "../Utils/DeleteItem";
 import EditItem from "../Utils/EditItem";
 import CsvDownloader from "../Utils/ExportToCsv";
 import { FaCircleUser } from "react-icons/fa6";
+import useUsers from "../hooks/useUsers";
+import { queryClient } from '..'
+import { useNavigate } from 'react-router-dom'
 
 const DisplayItems = () => {
-    const[items, addItem, removeItem, editItem] = useItems()
+    const {data} = useUsers()
+    const [items, addItem, removeItem, editItem] = useItems()
     const [addOpen, setAddOpen] = useState(false)
     const [searchQuery, setSearchQuery] = useState("");
     const [filteredItems, setFilteredItems] = useState(items);
+    const navigate = useNavigate();
 
     const handleCreatedItem = (response, newName, newCost, newDescription, newVendor, newCount) => {
         addItem(response.id, newName, newCost, newDescription, newVendor, newCount)
@@ -33,6 +38,15 @@ const DisplayItems = () => {
       setFilteredItems(filteredData);
   };
 
+  const handleLogout = () => { //logs user out of their account
+    fetch(`/api/logout`) //fetch request to end users session
+    .then(() => {
+        queryClient.invalidateQueries({ queryKey: ['userData'] }).then(() => {
+            navigate("/login") //invalidates queries so user knows a change has been made then navigates them to login screen
+        })
+    })
+  }
+
     return (
       <>
       <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=edit_square" />
@@ -41,12 +55,14 @@ const DisplayItems = () => {
           {/* Header */}
           <div className="bg-green-500/50 p-3 rounded-md flex justify-between items-center">
             <span className="font-semibold text-white">Inventory dashboard</span>
-            <button className="font-semibold text-white hover:opacity-50">
-              <div className="flex items-center justify-between gap-2">
-                Login
+            <div className="flex justify-between align-middle gap-5">
+              <button onClick={handleLogout} className='text-white font-semibold hover:opacity-50'>{data.isAuthenticated ? ( <>Logout</> 
+              ): <></>} </button> {/* if they are logged in shows Logout button if not shows nothing */}
+              <div className="flex items-center justify-between gap-2 font-semibold text-white">
+                {data.username}
                 <FaCircleUser />
               </div>
-            </button>
+            </div>
           </div>
           
           {/* Main Content */}

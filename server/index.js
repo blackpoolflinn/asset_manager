@@ -3,6 +3,7 @@ require('dotenv').config()
 const express = require("express");
 const session = require('express-session')
 const bcrypt = require('bcrypt');
+const db = require("./db")
 
 const PORT = process.env.PORT || 3001;
 const app = express();
@@ -45,7 +46,7 @@ app.post('/api/register', async(req, res) => {
   if(username.length <= 0 || username.trim().length <= 0 || password.length <= 0 || password.trim().length <= 0){
     return
   }
-  password = String(hashPassword(password))
+  password = await hashPassword(password)
   let result = await db.insert("INSERT INTO `Users` (`username`, `password`) VALUES (?, ?)", [username, password])
   if(result.insertId !== ''){
     res.status(200).send({success: true})
@@ -60,11 +61,12 @@ app.post('/api/login', async(req, res) => {
   if(username.length <= 0 || username.trim().length <= 0 || password.length <= 0 || password.trim().length <= 0){
     return
   }
-  let result = await db.search("SELECT `user_id`, `password` FROM `Users` WHERE `username`= ?", [username])
+  const result = await db.search("SELECT `user_id`, `password` FROM `Users` WHERE `username`=?", username)
+  compare = await comparePassword(password, result.password)
   if(result.length !== 0){
-    if(comparePassword(password, result.password)){
-      req.session.user = {id: result[0].user_id, username: username}
-      res.status(200).send({success: true, id: result[0].id})
+    if(compare){
+      req.session.user = {id: result.user_id, username: username}
+      res.status(200).send({success: true, id: result.id})
     } else {
       res.status(200).send({success: false, reason: "incorrect password"})
     }

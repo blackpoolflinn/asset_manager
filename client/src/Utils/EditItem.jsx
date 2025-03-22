@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import useItems from "../hooks/items";
 
 const EditItem = ({handleEditedItem, items}) => {
     const [isOpen, setIsOpen] = useState(false);
@@ -27,7 +28,7 @@ const EditItem = ({handleEditedItem, items}) => {
             },
             body: JSON.stringify({data: itemData})}) //stringifying the body to send the data to server
         .then(resp => resp.json())
-        .then(handleEditedItem(selectedItem.product_id, type, itemData)) 
+        .then(handleEditedItem(selectedItem.product_id, type, itemData), console.log(selectedItem.product_id, type, itemData)) 
     }
 
     const setName = (selectedItem, type, data) => {

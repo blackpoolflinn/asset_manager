@@ -27,7 +27,7 @@ class DB {
                 FOREIGN KEY ("user_id") REFERENCES "Users" ("user_id") ON DELETE CASCADE
             );
         `);
-      }
+    }
 
     /**
      * Private function to handle pool connections and query errors
@@ -35,10 +35,20 @@ class DB {
      * @param {*string} params 
      * @returns data from executed query
      */
-    async search(q, params){
+    async searchAll(q, params){
         try {
             const statement = database.prepare(q)
             let data = statement.all(params);
+            return data;
+        } catch (error) {
+            console.error(error)
+        }
+    }
+
+    async search(q, params){
+        try {
+            const statement = database.prepare(q)
+            let data = statement.get(params);
             return data;
         } catch (error) {
             console.error(error)
@@ -59,7 +69,6 @@ class DB {
         try {
             const statement = database.prepare(q)
             const data = statement.run(...params);
-            console.log(data)
             return data;
         } catch (error) {
             console.error(error)

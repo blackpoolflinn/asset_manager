@@ -6,9 +6,8 @@ const DeleteItem = ({handleRemovedItem, itemID}) => {
         fetch(`/api/items/${itemID}`, {
             method: "DELETE" 
         })
-        .then((resp) => {
-            handleRemovedItem(itemID)
-        })
+        .then(resp => resp.json())
+        .then(handleRemovedItem(itemID))
     }
 
     return (

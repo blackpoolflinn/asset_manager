@@ -2,7 +2,7 @@ const router = require('express').Router();
 const db = require("./db")
 
 router.get('/api/items', async (req, res) => { //async so the program doesn't move on until the request is complete
-    let result = await db.search("SELECT * FROM `Products` WHERE user_id = ?", [req.session.user.id]) //select all the products
+    let result = await db.searchAll("SELECT * FROM `Products` WHERE user_id =?", req.session.user.id) //select all the products
     res.send({result}) 
 })
 
@@ -19,13 +19,15 @@ router.post('/api/item', async (req, res) => { //async so the program doesn't mo
     || count.length <= 0 || count.trim().length <= 0){
       return
     }
-    let result = await db.insert("INSERT INTO Products (product_name, product_cost, product_description, product_vendor, product_count, user_id) VALUES (?,?,?,?,?,?)", [name,cost,description,vendor,count, req.session.user.id])
+    let result = await db.insert("INSERT INTO Products (product_name, product_cost, product_description, product_vendor, product_count, user_id) VALUES (?,?,?,?,?,?)", [name,cost,description,vendor,count, (req.session.user.id).toString()])
+    console.log("result: " + result)
     res.send({id: result.lastInsertRowid})
   })
 
 router.delete('/api/items/:id', async(req, res) => { //async so the program doesn't move on until the request is complete
     const id = req.params.id 
     let result = await db.delete("DELETE FROM Products WHERE product_id=?", [id]) 
+    console.log('THE RESULT IS: ' + result)
     res.send({affectedRows: result.affectedRows}) 
   })
 

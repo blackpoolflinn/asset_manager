@@ -43,7 +43,7 @@ const useItems = () => {
         setItems(updatedItems)
     }
 
-    return [items, loadItems, addItem, removeItem, editItem] //exporting all the functions for useItems hook
+    return [items, addItem, removeItem, editItem] //exporting all the functions for useItems hook
 
 }
 
