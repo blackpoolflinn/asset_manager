@@ -46,6 +46,11 @@ app.post('/api/register', async(req, res) => {
   if(username.length <= 0 || username.trim().length <= 0 || password.length <= 0 || password.trim().length <= 0){
     return
   }
+  const userResult = await db.search("SELECT `user_id`, `password` FROM `Users` WHERE `username`=?", username)
+  console.log(userResult)
+  if (userResult != undefined) {
+    return
+  }
   password = await hashPassword(password)
   let result = await db.insert("INSERT INTO `Users` (`username`, `password`) VALUES (?, ?)", [username, password])
   if(result.insertId !== ''){
