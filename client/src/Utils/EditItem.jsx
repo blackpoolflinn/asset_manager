@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import useItems from "../hooks/items";
 
 const EditItem = ({handleEditedItem, items}) => {
     const [isOpen, setIsOpen] = useState(false);
@@ -161,7 +160,7 @@ const EditItem = ({handleEditedItem, items}) => {
                         <button className="w-full h-full" onClick={() => setCountOpen(!countOpen)}><span class="material-symbols-outlined">edit_square</span></button>
                         </td>
                     </> : <>
-                        <td className="p-2 border overflow-auto"><input type="number" placeholder="Count" className="w-full p-2 border rounded" onChange={e => setNewCount(e.target.value)} id="count" min={1}/></td>
+                        <td className="p-2 border overflow-auto"><input type="number" placeholder={items[selectedItem].product_count} className="w-full p-2 border rounded" onChange={e => setNewCount(e.target.value)} id="count" min={1}/></td>
                         <td className="border w-1/4 hover:bg-green-500/15">
                         <button className="w-full h-full" onClick={() => setCount(items[selectedItem], "product_count", newCount)}>Submit</button>
                         </td>

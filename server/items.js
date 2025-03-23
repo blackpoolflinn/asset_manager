@@ -35,9 +35,11 @@ router.patch('/api/items/:type/:product_id', async(req, res) => {
   const type = req.params.type
   const id = req.params.product_id
   const data = req.body.data
-  if(data.length <= 0 || data.trim().length <= 0){
-    return //Check that new name isn't empty
-  }
+  if (data === parseInt(data, 10)){
+  } else {
+    if(data.length <= 0 || data.trim().length <= 0){
+      return //Check that new name isn't empty
+  }}
   if (type == "product_name" | type == "product_cost" | type == "product_description" | type == "product_vendor" | type == "product_count"){
     let result = await db.insert(`UPDATE Products SET ${type} = ? WHERE  product_id=?`, [data, id])
     res.send({id: result.lastInsertRowid})

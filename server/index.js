@@ -62,6 +62,9 @@ app.post('/api/login', async(req, res) => {
     return
   }
   const result = await db.search("SELECT `user_id`, `password` FROM `Users` WHERE `username`=?", username)
+  if (result == undefined) {
+    return
+  }
   compare = await comparePassword(password, result.password)
   if(result.length !== 0){
     if(compare){
