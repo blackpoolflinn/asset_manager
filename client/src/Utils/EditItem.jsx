@@ -64,7 +64,7 @@ const EditItem = ({handleEditedItem, items}) => {
             :
             <button onClick={() => setIsOpen(!isOpen)} className="hover:bg-slate-400/15 hover:text-white font-semibold px-4 rounded-md text-black focus:outline-none mb-2 w-full bg-white outline-slate-400/15 outline">
                 <div className="flex justify-between">
-                    <div className="text-center align-middle">{items[selectedItem].product_name}</div>
+                    <div className="text-center align-middle overflow-x-auto">{items[selectedItem].product_name}</div>
                     <div className="font-bold text-xl">↓</div>
                 </div>
             </button>}
@@ -77,9 +77,9 @@ const EditItem = ({handleEditedItem, items}) => {
                     </div>
                     {items !== null && items.map((item, i) => ( //checks whether items array is empty and continues if not
                         <button className="px-4 py-2 hover:bg-gray-100 cursor-pointer" key={i} onClick={() => setItem(i)}>
-                        <div className="flex justify-between">
-                            <div>{item.product_id}</div>
-                            <div>{item.product_name}</div>
+                        <div className="flex justify-between gap-10">
+                            <div className="px-4">{item.product_id}</div>
+                            <div className="overflow-x-auto">{item.product_name}</div>
                         </div>
                         </button>
                     ))}
@@ -95,12 +95,12 @@ const EditItem = ({handleEditedItem, items}) => {
             <tr className="odd:bg-gray-50 even:bg-white text-center">
                 <td className="p-2 border">Name</td>
                     {!nameOpen ? <>
-                        <td className="p-2 border overflow-auto">{items[selectedItem].product_name}</td>
+                        <td className="p-2 border overflow-x-auto">{items[selectedItem].product_name}</td>
                         <td className="border w-1/4 hover:bg-green-500/15">
                         <button className="w-full h-full" onClick={() => setNameOpen(!nameOpen)}><span class="material-symbols-outlined">edit_square</span></button>
                         </td>
                     </> : <>
-                        <td className="p-2 border overflow-auto"><input type="text" placeholder={items[selectedItem].product_name} className="w-full p-2 border rounded" onChange={e => setNewName(e.target.value)} id="name" min={1}/></td>
+                        <td className="p-2 border overflow-x-auto"><input type="text" placeholder={items[selectedItem].product_name} className="w-full p-2 border rounded" onChange={e => setNewName(e.target.value)} id="name" min={1}/></td>
                         <td className="border w-1/4 hover:bg-green-500/15">
                         <button className="w-full h-full" onClick={() => setName(items[selectedItem], "product_name", newName)}>Submit</button>
                         </td>

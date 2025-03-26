@@ -91,12 +91,12 @@ const DisplayItems = () => {
                 <tbody>
                     {filteredItems !== null && filteredItems.map((item, i) => ( //checks whether items array is empty and continues if not
                     <tr key={i} className="odd:bg-gray-50 even:bg-white text-center">
-                        <td className="p-2 border">{item.product_id}</td>
-                        <td className="p-2 border">{item.product_name}</td>
-                        <td className="p-2 border">{item.product_cost}</td>
+                        <td className="p-2 border overflow-x-auto">{item.product_id}</td>
+                        <td className="p-2 border overflow-x-auto">{item.product_name}</td>
+                        <td className="p-2 border overflow-x-auto">{item.product_cost}</td>
                         <td className="p-2 border overflow-x-auto">{item.product_description}</td>
-                        <td className="p-2 border">{item.product_vendor}</td>
-                        <td className="p-2 border">{item.product_count}</td>
+                        <td className="p-2 border overflow-x-auto">{item.product_vendor}</td>
+                        <td className="p-2 border overflow-x-auto">{item.product_count}</td>
                         <td className="border hover:bg-red-500 h-full text-centre"><DeleteItem itemID={item.product_id} handleRemovedItem={(id) => {removeItem(id)}} /></td>
                     </tr>
                     ))}
