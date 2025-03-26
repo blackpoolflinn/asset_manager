@@ -8,6 +8,7 @@ import { FaCircleUser } from "react-icons/fa6";
 import useUsers from "../hooks/useUsers";
 import { queryClient } from '..'
 import { useNavigate } from 'react-router-dom'
+import Footer from "../Utils/Footer";
 
 const DisplayItems = () => {
     const {data} = useUsers()
@@ -52,7 +53,6 @@ const DisplayItems = () => {
       <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=edit_square" />
       <div className="p-6 bg-gray-100 min-h-screen">
         <div className="container">
-          {/* Header */}
           <div className="bg-green-500/50 p-3 rounded-md flex justify-between items-center">
             <span className="font-semibold text-white">Inventory dashboard</span>
             <div className="flex justify-between align-middle gap-5">
@@ -65,11 +65,8 @@ const DisplayItems = () => {
             </div>
           </div>
           
-          {/* Main Content */}
           <div className="grid grid-cols-3 gap-4 mt-4">
-            {/* Inventory Table */}
             <div className="col-span-2 bg-white p-4 rounded-lg shadow-md overflow-x-auto">
-              {/* Search Bar & Actions */}
                 <div className="mb-4 flex justify-between items-center">
                     <div className="flex gap-2 w-1/3">
                         <input type="text" placeholder="Search" className="p-2 border rounded flex-1" value={searchQuery} onChange={e => setSearchQuery(e.target.value)}/>
@@ -106,7 +103,6 @@ const DisplayItems = () => {
                 </tbody>
               </table>
             </div>
-            {/* Sidebar */}
             <div className="bg-white p-4 rounded-lg shadow-md max-h-min">
               <h2 className="text-lg font-semibold mb-2 text-center bg-green-500 text-white p-2 rounded">Manage Inventory</h2>
               {!addOpen ? <>
@@ -125,6 +121,7 @@ const DisplayItems = () => {
             </div>
           </div>
         </div>
+        <Footer />
         </div>
         </>
       );
