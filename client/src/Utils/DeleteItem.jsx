@@ -2,6 +2,7 @@ import { RiDeleteBin6Line } from "react-icons/ri";
 
 const DeleteItem = ({handleRemovedItem, itemID}) => {
 
+    // delete request for item
     const handleRemoveItem = () => {
         fetch(`/api/items/${itemID}`, {
             method: "DELETE" 
