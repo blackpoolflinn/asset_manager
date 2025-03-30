@@ -6,9 +6,13 @@ const Register = () => {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const navigate = useNavigate(); //useNavigate can redirect the user to the URL that the websites requires them to go to
+    const [showError, setShowError] = useState(false)
+    const [error, setError] = useState("")
 
     const HandleRegister = () => {
         if(username.length <= 0 || username.trim().length <= 0 || password.length <= 0 || password.trim().length <= 0){
+            setError("Empty Input Detected")
+            setShowError(true)
             return 
         }
         fetch(`/api/register`, {
@@ -23,7 +27,11 @@ const Register = () => {
             ).then((response) => {
                 if(response.success === true){ //check whether the account creation was successful
                     navigate("/login") //if it was succesful navigate them to login
-                }
+                } else {
+                    setError(response.reason)
+                    setShowError(true)
+                    return
+                }   
         }) 
     }
 
@@ -61,6 +69,10 @@ const Register = () => {
                     <button className="w-full hover:bg-green-500/50 bg-green-500 text-white p-3 rounded-lg shadow-md" onClick={HandleRegister}>
                     Register
                     </button>
+                    {!showError ? <></> : <div className="text-red-500 pt-5 text-center">
+                        {error}
+                    </div>
+                    }
                 </div>
             </div>
           </div>

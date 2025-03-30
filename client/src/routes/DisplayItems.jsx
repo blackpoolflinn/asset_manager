@@ -22,11 +22,14 @@ const DisplayItems = () => {
         addItem(response.id, newName, newCost, newDescription, newVendor, newCount)
     }
 
+    const formatAsGBP = value => `£${parseFloat(value).toFixed(2)}`;
+
     useEffect(() => {
       setFilteredItems(items);
     }, [items]);
 
-    const searchItems = () => {
+    const searchItems = (text) => {
+      setSearchQuery(text)
       if (!searchQuery) {
           setFilteredItems(items);
           return;
@@ -69,7 +72,7 @@ const DisplayItems = () => {
             <div className="col-span-2 bg-white p-4 rounded-lg shadow-md overflow-x-auto">
                 <div className="mb-4 flex justify-between items-center">
                     <div className="flex gap-2 w-1/3">
-                        <input type="text" placeholder="Search" className="p-2 border rounded flex-1" value={searchQuery} onChange={e => setSearchQuery(e.target.value)}/>
+                        <input type="text" placeholder="Search" className="p-2 border rounded flex-1" value={searchQuery} onChange={e => searchItems(e.target.value)}/>
                         <button className="bg-green-500 text-white px-3 py-1 rounded" onClick={searchItems}>Search</button>
                     </div>
                     <div className="flex gap-2">
@@ -93,7 +96,7 @@ const DisplayItems = () => {
                     <tr key={i} className="odd:bg-gray-50 even:bg-white text-center">
                         <td className="p-2 border overflow-x-auto">{item.product_id}</td>
                         <td className="p-2 border overflow-x-auto">{item.product_name}</td>
-                        <td className="p-2 border overflow-x-auto">{item.product_cost}</td>
+                        <td className="p-2 border overflow-x-auto">{formatAsGBP(item.product_cost)}</td>
                         <td className="p-2 border overflow-x-auto">{item.product_description}</td>
                         <td className="p-2 border overflow-x-auto">{item.product_vendor}</td>
                         <td className="p-2 border overflow-x-auto">{item.product_count}</td>

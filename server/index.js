@@ -49,6 +49,7 @@ app.post('/api/register', async(req, res) => {
   const userResult = await db.search("SELECT `user_id`, `password` FROM `Users` WHERE `username`=?", username)
   console.log(userResult)
   if (userResult != undefined) {
+    res.status(200).send({success: false, reason: "Username already exists"})
     return
   }
   password = await hashPassword(password)
@@ -56,7 +57,7 @@ app.post('/api/register', async(req, res) => {
   if(result.insertId !== ''){
     res.status(200).send({success: true})
   } else {
-    res.status(200).send({success: false})
+    res.status(200).send({success: false, reason: "Registration failed"})
   }
 })
 
