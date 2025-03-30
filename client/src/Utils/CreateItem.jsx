@@ -2,22 +2,25 @@ import React, { useState } from 'react'
 
 const CreateItem = ({handleCreatedItem}) => {
     const [newName, setNewName] = useState('')
-    const [newCost, setNewCost] = useState(0.0)
+    const [newCost, setNewCost] = useState(null)
     const [newDescription, setNewDescription] = useState('')
     const [newVendor, setNewVendor] = useState('')
-    const [newCount, setNewCount] = useState(0)
+    const [newCount, setNewCount] = useState(null)
     let name = document.getElementById("name")
     let cost = document.getElementById("cost")
     let description = document.getElementById("description")
     let vendor = document.getElementById("vendor")
     let count = document.getElementById("count")
+    const [showError, setShowError] = useState(false)
+    const [error, setError] = useState("")
 
     const handleCreateItem = () => {
         if(newName.length <= 0 || newName.trim().length <= 0 
-        || newCost.length <= 0 || newCost.trim().length <= 0 
         || newDescription.length <= 0 || newDescription.trim().length <= 0 
-        || newVendor.length <= 0 || newVendor.trim().length <= 0
-        || newCount.length <= 0 || newCount.trim().length <= 0){
+        || newVendor.length <= 0 || newVendor.trim().length <= 0 ||
+        newCost == null || newCount == null){
+            setError("Empty data fields detected")
+            setShowError(true)
             return
         }
         fetch("/api/item", {
@@ -53,6 +56,7 @@ const CreateItem = ({handleCreatedItem}) => {
                 <input type="text" placeholder="Enter product vendor" className="w-full p-2 border rounded" onChange={e => setNewVendor(e.target.value)} id="vendor"/>
                 <input type="number" placeholder="Enter product count" className="w-full p-2 border rounded" onChange={e => setNewCount(e.target.value)} id="count" min={1}/>
                 <button className="w-full bg-green-500 text-white p-2 rounded hover:bg-green-500/50" onClick={() => {handleCreateItem()}}>Create</button>
+                {!showError ? <></> : <div className="text-red-500 pt-1 text-center">{error}</div>}
             </div>
         </>
     )

@@ -9,10 +9,10 @@ const EditItem = ({handleEditedItem, items}) => {
     const [vendorOpen, setVendorOpen] = useState(false)
     const [countOpen, setCountOpen] = useState(false)
     const [newName, setNewName] = useState('')
-    const [newCost, setNewCost] = useState(0.0)
+    const [newCost, setNewCost] = useState(null)
     const [newDescription, setNewDescription] = useState('')
     const [newVendor, setNewVendor] = useState('')
-    const [newCount, setNewCount] = useState(0)
+    const [newCount, setNewCount] = useState(null)
 
     const setItem = (id) => {
         setIsOpen(!isOpen)
