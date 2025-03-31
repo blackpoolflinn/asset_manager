@@ -13,6 +13,8 @@ const EditItem = ({handleEditedItem, items}) => {
     const [newDescription, setNewDescription] = useState('')
     const [newVendor, setNewVendor] = useState('')
     const [newCount, setNewCount] = useState(null)
+    const [showError, setShowError] = useState(false)
+    const [error, setError] = useState("")
 
     const setItem = (id) => {
         setIsOpen(!isOpen)
@@ -27,28 +29,53 @@ const EditItem = ({handleEditedItem, items}) => {
             },
             body: JSON.stringify({data: itemData})}) //stringifying the body to send the data to server
         .then(resp => resp.json())
-        .then(handleEditedItem(selectedItem.product_id, type, itemData), console.log(selectedItem.product_id, type, itemData)) 
+        .then(handleEditedItem(selectedItem.product_id, type, itemData), setShowError(false)) 
     }
 
     const setName = (selectedItem, type, data) => {
-        setNameOpen(!nameOpen)
-        handleEditItem(selectedItem, type, data)
+        if(data.length <= 0 || data.trim().length <= 0){
+            setError("Empty Name")
+            setShowError(true)
+        } else {
+            setNameOpen(!nameOpen)
+            handleEditItem(selectedItem, type, data)
+        }
     }
     const setCost = (selectedItem, type, data) => {
-        setCostOpen(!costOpen)
-        handleEditItem(selectedItem, type, data)
+        if(data == null){
+            setError("Empty Cost")
+            setShowError(true)
+        } else {
+            setCostOpen(!costOpen)
+            handleEditItem(selectedItem, type, data)
+        }
     }
     const setDescription = (selectedItem, type, data) => {
-        setDescriptionOpen(!descriptionOpen)
-        handleEditItem(selectedItem, type, data)
+        if(data.length <= 0 || data.trim().length <= 0){
+            setError("Empty Description")
+            setShowError(true)
+        } else {
+            setDescriptionOpen(!descriptionOpen)
+            handleEditItem(selectedItem, type, data)
+        }
     }
     const setVendor = (selectedItem, type, data) => {
-        setVendorOpen(!vendorOpen)
-        handleEditItem(selectedItem, type, data)
+        if(data.length <= 0 || data.trim().length <= 0){
+            setError("Empty Vendor")
+            setShowError(true)
+        } else {
+            setVendorOpen(!vendorOpen)
+            handleEditItem(selectedItem, type, data)
+        }
     }
     const setCount = (selectedItem, type, data) => {
-        setCountOpen(!countOpen)
-        handleEditItem(selectedItem, type, data)
+        if(data == null){
+            setError("Empty Count")
+            setShowError(true)
+        } else {
+            setCountOpen(!countOpen)
+            handleEditItem(selectedItem, type, data)
+        }
     }
 
     return (
@@ -90,6 +117,8 @@ const EditItem = ({handleEditedItem, items}) => {
         { items[selectedItem] == null && items[selectedItem] == undefined ?
         <></>
          : 
+        <>
+        {!showError ? <></> : <div className="text-red-500 pt-1 pb-2 text-center">{error}</div>}
         <table className="w-full border-collapse table-fixed">
             <tbody className="w-full">
             <tr className="odd:bg-gray-50 even:bg-white text-center">
@@ -169,6 +198,7 @@ const EditItem = ({handleEditedItem, items}) => {
                 </tr>
             </tbody>
         </table>
+        </>
         }
         </>
     )

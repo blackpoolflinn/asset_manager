@@ -41,9 +41,10 @@ const CreateItem = ({handleCreatedItem}) => {
                 count.value = '' 
                 setNewName('')
                 setNewDescription('')
-                setNewCost(0.0)
-                setNewCount(0)
+                setNewCost(null)
+                setNewCount(null)
                 setNewVendor('')
+                setShowError(false)
             })
     }
 
