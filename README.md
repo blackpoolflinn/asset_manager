@@ -18,7 +18,7 @@ Ensure you have the following installed on your system:
 1.  Clone the repository:
     
     ```
-    git clone <repository-url>
+    git clone https://github.com/blackpoolflinn/asset_manager.git
     cd <project-directory>
     ```
     
