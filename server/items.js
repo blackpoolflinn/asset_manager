@@ -20,7 +20,6 @@ router.post('/api/item', async (req, res) => { //async so the program doesn't mo
       return
     }
     let result = await db.insert("INSERT INTO Products (product_name, product_cost, product_description, product_vendor, product_count, user_id) VALUES (?,?,?,?,?,?)", [name,cost,description,vendor,count, (req.session.user.id).toString()])
-    console.log("result: " + result)
     res.send({id: result.lastInsertRowid})
   })
 
