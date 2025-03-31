@@ -33,7 +33,7 @@ Ensure you have the following installed on your system:
 
 ## Environment Variables Setup
 
-Create a `.env` file in the root project directory and add the following:
+Create a `.env` file in the SERVER FOLDER and add the following:
 
 ```
 SECRET="examplesecret"
