@@ -45,7 +45,7 @@ Modify this value as needed to suit your application's security requirements.
 
 Open two terminal windows and follow these steps:
 
-### Start the Client (Frontend)
+### Build the Client (Frontend) THIS ONLY HAS TO BE RUN ONCE AFTER REPO IS CLONED
 
 1.  In the first terminal, navigate to the `client` directory:
     
@@ -53,19 +53,19 @@ Open two terminal windows and follow these steps:
     cd client
     ```
     
-2.  Start the frontend:
+2.  build the frontend:
     
     ```
-    npm start
+    npm run build
     ```
     
 
-### Start the Server (Backend)
+### Start the Server (Backend) RUN EVERY TIME
 
 1.  In the second terminal, ensure you are in the root project directory:
     
     ```
-    cd <project-directory>  # Skip this if you're already in the root
+    cd asset_manager  # Skip this if you're already in the root
     ```
     
 2.  Start the backend:
@@ -77,10 +77,7 @@ Open two terminal windows and follow these steps:
 
 ## Accessing the Application
 
--   The frontend will typically run on `http://localhost:3000/`
-    
--   The backend server will run on the port specified in the server configuration (default: `http://localhost:3001/` )
-    
+-   After building the frontend and running the server, the webiste will be available on `http://localhost:3001/`
 
 ## Additional Notes
 

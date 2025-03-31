@@ -28,11 +28,11 @@ app.use(session({ // sessions to store user info
   cookie: { secure: false }
 }))
 
-app.get('/session', async(req, res) => {
+app.get('/api/session', async(req, res) => {
   res.status(200).json(req.session.user ? {...req.session.user, isAuthenticated: true} : {isAuthenticated: false})
 })
 
-app.get('/logout', async(req, res) => {
+app.get('/api/logout', async(req, res) => {
   if(!req.session.user){
     return res.status(403).send({success: false})
   }
@@ -41,7 +41,7 @@ app.get('/logout', async(req, res) => {
   })
 })
 
-app.post('/register', async(req, res) => {
+app.post('/api/register', async(req, res) => {
   const username = req.body.username
   let password = req.body.password
   if(username.length <= 0 || username.trim().length <= 0 || password.length <= 0 || password.trim().length <= 0){
@@ -62,7 +62,7 @@ app.post('/register', async(req, res) => {
   }
 })
 
-app.post('/login', async(req, res) => {
+app.post('/api/login', async(req, res) => {
   const username = req.body.username
   let password = req.body.password
   if(username.length <= 0 || username.trim().length <= 0 || password.length <= 0 || password.trim().length <= 0){

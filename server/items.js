@@ -1,12 +1,12 @@
 const router = require('express').Router();
 const db = require("./db")
 
-router.get('/api/items', async (req, res) => { //async so the program doesn't move on until the request is complete
+router.get('/items', async (req, res) => { //async so the program doesn't move on until the request is complete
     let result = await db.searchAll("SELECT * FROM `Products` WHERE user_id =?", req.session.user.id) //select all the products
     res.send({result}) 
 })
 
-router.post('/api/item', async (req, res) => { //async so the program doesn't move on until the request is complete
+router.post('/item', async (req, res) => { //async so the program doesn't move on until the request is complete
     const name = req.body.name 
     const cost = req.body.cost 
     const description = req.body.description 
@@ -23,14 +23,14 @@ router.post('/api/item', async (req, res) => { //async so the program doesn't mo
     res.send({id: result.lastInsertRowid})
   })
 
-router.delete('/api/items/:id', async(req, res) => { //async so the program doesn't move on until the request is complete
+router.delete('/items/:id', async(req, res) => { //async so the program doesn't move on until the request is complete
     const id = req.params.id 
     let result = await db.delete("DELETE FROM Products WHERE product_id=?", [id]) 
     console.log('THE RESULT IS: ' + result)
     res.send({affectedRows: result.affectedRows}) 
   })
 
-router.patch('/api/items/:type/:product_id', async(req, res) => {
+router.patch('/items/:type/:product_id', async(req, res) => {
   const type = req.params.type
   const id = req.params.product_id
   const data = req.body.data
