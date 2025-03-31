@@ -28,8 +28,7 @@ const DisplayItems = () => {
       setFilteredItems(items);
     }, [items]);
 
-    const searchItems = (text) => {
-      setSearchQuery(text)
+    const searchItems = () => {
       if (!searchQuery) {
           setFilteredItems(items);
           return;
@@ -72,7 +71,7 @@ const DisplayItems = () => {
             <div className="col-span-2 bg-white p-4 rounded-lg shadow-md overflow-x-auto">
                 <div className="mb-4 flex justify-between items-center">
                     <div className="flex gap-2 w-1/3">
-                        <input type="text" placeholder="Search" className="p-2 border rounded flex-1" value={searchQuery} onChange={e => searchItems(e.target.value)}/>
+                        <input type="text" placeholder="Search" className="p-2 border rounded flex-1" value={searchQuery} onChange={e => setSearchQuery(e.target.value)}/>
                         <button className="bg-green-500 text-white px-3 py-1 rounded" onClick={searchItems}>Search</button>
                     </div>
                     <div className="flex gap-2">
